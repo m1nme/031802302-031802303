@@ -1,48 +1,82 @@
-<!DOCTYPE>
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>两点之间画折线</title>
-<style type="text/css">
-body{
- font-size:12px;
+ 
+</head>
+<style>
+.item{
+background:red;
+border-radius:10px;
+height:10px;
+width:10px;
+        position: absolute;
+}
+.circle{
+border:1px solid blue;
+border-radius:100px;
+height:100px;
+width:100px;
+position: absolute;
+top:100px;
+left:100px;
+}
+.circle2{
+border:1px solid blue;
+border-radius:100px;
+height:200px;
+width:200px;
+position: absolute;
+top:50px;
+left:50px;
+}
+.circle3{
+border:1px solid blue;
+border-radius:300px;
+height:300px;
+width:300px;
+position: absolute;
+top:0px;
+left:0px;
+}
+#centre{
+top:145px;
+left:145px;
+}
+#point{
+top:95px;
+left:145px;
+}
+#point2{
+top:45px;
+left:145px;
+}
+#point3{
+top:-5px;
+left:145px;
 }
 </style>
-</head>
-<script type="text/javascript">
-<!--
-var dot=new Array();
-document.onmousedown =function(a) 
-{ 
- //若div存在，则删除
- if(document.getElementById('line_div')){
- var clearDiv=document.getElementById("line_div");
- clearDiv.parentNode.removeChild(clearDiv);
- }
- //按下时创建一个事件
- if(!a) a=window.event;
- //获取x轴、y轴坐标
- var x=a.clientX;
- var y=a.clientY;
- //当数组长度大于等于4时，清空数组
- if(dot.length>=4) dot.splice(0,4);
- //将x、y添加到数组中,数组中保存了两组坐标值，相当于页面上的A(x1,y1)、B(x2,y2)两点
- dot.push(x,y);
- //当数组长度为4时，画线。
- if(dot.length==4){
- //计算div的长和宽
- var width=Math.abs(dot[0]-dot[2]);
- var height=Math.abs(dot[1]-dot[3]);
- //在页面上定位div左上角的具体位置
- var left=dot[0]-dot[2]<0?dot[0]:dot[2];
- var top=dot[1]-dot[3]<0?dot[1]:dot[3];
- //创建div
- var div=document.createElement("div");
- div.innerHTML=' <div id="line_div" style="width:'+width+'px;height:'+height+'px;position:absolute;visibility:visible;left:'+left+'px;top:'+top+'px;border-left:1px solid #cdcdcd;border-top:1px solid #cdcdcd;"></div>';
- document.body.appendChild(div);
- }
-} 
--->
-</script>
 <body>
+     <div id="point" class="item"></div>
+    <div id="centre" class="item"></div>
+    <div class="circle"></div>
+<div class="circle2"></div>
+<div class="circle3"></div>
+<div id="point2" class="item"></div>
+<div id="point3" class="item"></div>
 </body>
 </html>
+<script src='./static/js/jquery-1.11.0.min.js'></script>
+<script>
+//var obj = document.getElementById('point');
+var a=0;
+function cc(){
+a=a+0.01;
+var y=145-50*Math.cos(a);
+var x=145+50*Math.sin(a);
+$("#point").css({"top":y,"left":x});
+$("#point2").css({"top":x*2-145,"left":y*2-145});
+$("#point3").css({"top":y*3-290,"left":x*3-290});
+}
+setInterval(cc,6);
+ 
+</script>

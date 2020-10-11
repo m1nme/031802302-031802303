@@ -69,8 +69,8 @@ function createTree(){
 		for(var w in ROOT[q]){
 			var num2 = Object.keys(ROOT[q]).length;
 			var angle = 360/(num2);
-			var x2 = x1 + 180*Math.cos((angle*j+30)*Math.PI/180);
-			var y2 = y1 + 180*Math.sin((angle*j+30)*Math.PI/180);
+			var x2 = x1 + 180*Math.cos((angle*j+45)*Math.PI/180);
+			var y2 = y1 + 180*Math.sin((angle*j+45)*Math.PI/180);
 			createline(x1,y1,x2,y2,'blue','3px',q+q);
 
 			var k = 0;
@@ -101,7 +101,7 @@ function createTree(){
 						.attr('fill',color)
 						.attr('class',select)
 						.attr('root',root)
-						.attr('onclick',"test(\'"+q+"\',\'"+text+"\');");
+						.attr('onclick',"change(\'"+q+"\',\'"+text+"\');");
 		
 		var text = g.append('text')
 					.text(text)
@@ -112,7 +112,10 @@ function createTree(){
 					.style('font-size', size)
 					.attr('dy', 8)
 					.attr('root',root)
-					.attr('class',select);
+					.attr('class',select)
+					.attr('onclick',"change(\'"+q+"\',\'"+text+"\');")
+					.attr('view',text)
+					.attr('xy',x+','+y);
 	}
 
 	function createrect(x,y,width,height,text,color,size,select){
@@ -144,17 +147,96 @@ function createTree(){
 		            .attr("stroke", color)
 		            .attr("stroke-width", size)
 		            .attr("class",select)
-		            .attr("root",root)
-		            .attr('onclick','test();');
+		            .attr("root",root);
 	}
 	// active();
+	linksame();
 }
-function test(q,text){
+function change(q,text){
 	$('.'+q+text).toggle();
 	$("[root="+text+"]").toggle();
-	console.log($("[root="+text+"]").attr("style"));
+	// console.log($("[root="+text+"]").attr("style"));
 	if($('.'+q+text).attr("style")=="display: none;"){
 		$("[root="+text+"]").hide();
 	}
 
+}
+
+
+function linksame(){
+	// console.log($("[root='张三']").text());
+	var svg = d3.select("svg");
+	var g = svg.append('g');
+	// var circle = g.append('circle')
+	// 					.attr('cx',40)
+	// 					.attr('cy',40)
+	// 					.attr('r',30)
+	// 					.attr('fill','black');
+	// var point = [];
+	for(var i in ROOT){
+		// console.log(i);
+		for(var j in ROOT[i]){
+			// console.log(j);
+			for(var k in ROOT[i][j]){
+
+				// var x = document.getElementsByTagName("text")[0].view;
+				// console.log(x);
+				var point = $("[view='"+k+"']");
+				// console.log(point.length);
+				var result = [];
+				for(var q=0;q<point.length;q++){
+					result.push(point.eq(q).attr("xy"));
+				}
+				console.log(result);
+				point = result;
+				for(var a=0;a<point.length;a++){
+					for(var b=0;b<point.length;b++){
+						console.log(a+' '+b);
+						var x1 = point[a].split(/\,/)[0];
+						var y1 = point[a].split(/\,/)[1];
+						var x2 = point[b].split(/\,/)[0];
+						var y2 = point[b].split(/\,/)[1];
+						console.log(x1+':'+y1+','+x2+':'+y2);
+
+				// 				// g.append('circle')
+				// 				// 		.attr('cx',40)
+				// 				// 		.attr('cy',40)
+				// 				// 		.attr('r',30)
+				// 				// 		.attr('fill','black');
+						var colors = ['null','black','green','pink','puple','blue'];
+						var c = randomNum(1,5);
+						g.append("line")
+				            .attr("x1", x1)
+				            .attr("x2", x2)
+				            .attr("y1", y1)
+				            .attr("y2", y2)
+				            .attr("stroke", colors[c])
+				            .attr("stroke-width", c+'px');
+				// 		            .attr("class",'')
+				// 		            .attr("root",'');
+					}
+				}
+			}
+		}
+	}
+	function randomNum(minNum,maxNum){ 
+	    switch(arguments.length){ 
+	        case 1: 
+	            return parseInt(Math.random()*minNum+1,10); 
+	        break; 
+	        case 2: 
+	            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
+	        break; 
+	            default: 
+	                return 0; 
+	            break; 
+	    } 
+	}
+	// var result = [];
+ //    for(var i=0;i<point.length;i++){
+ //        if(result.indexOf(point[i])==-1){
+ //            result.push(point[i]);
+ //        }
+ //    }
+ //    console.log(result);
 }
