@@ -49,7 +49,7 @@ function analyse(){
 		}
 	}
 	// return ROOT;
-	console.log(ROOT);
+	// console.log(ROOT);
 	createTree();
 }
 
@@ -71,7 +71,7 @@ function createTree(){
 			var angle = 360/(num2);
 			var x2 = x1 + 180*Math.cos((angle*j+30)*Math.PI/180);
 			var y2 = y1 + 180*Math.sin((angle*j+30)*Math.PI/180);
-			createline(x1,y1,x2,y2,'blue','3px');
+			createline(x1,y1,x2,y2,'blue','3px',q+q);
 
 			var k = 0;
 			for(var e in ROOT[q][w]){
@@ -81,20 +81,27 @@ function createTree(){
 				var x3 = x2 + 80*Math.cos((angle2*k+60)*Math.PI/180);
 				var y3 = y2 + 80*Math.sin((angle2*k+60)*Math.PI/180);
 				// console.log(80*Math.cos(angle2*k*Math.PI/180)+"  "+80*Math.sin(angle2*k*Math.PI/180)+"  "+k);
-				createline(x2,y2,x3,y3,'red','1px');
-				createcircle(x3,y3,20,e,'red','8px');
+				createline(x2,y2,x3,y3,'red','1px',q+w,q);
+				createcircle(x3,y3,20,e,'red','8px',q+w,q);
 				k++;
 			}
-			createcircle(x2,y2,30,w,'black','10px');
+			createcircle(x2,y2,30,w,'black','10px',q+q);
 			j++;
 		}
-		createcircle(x1,y1,50,q,'blue','40px');
+		createcircle(x1,y1,50,q,'blue','40px','root');
 		i++;
 	}
 	
 
-	function createcircle(x,y,r,text,color,size){
-		var circle = g.append('circle').attr('cx',x).attr('cy',y).attr('r',r).attr('fill',color);
+	function createcircle(x,y,r,text,color,size,select,root){
+		var circle = g.append('circle')
+						.attr('cx',x)
+						.attr('cy',y)
+						.attr('r',r)
+						.attr('fill',color)
+						.attr('class',select)
+						.attr('root',root)
+						.attr('onclick',"test(\'"+q+"\',\'"+text+"\');");
 		
 		var text = g.append('text')
 					.text(text)
@@ -103,16 +110,19 @@ function createTree(){
 					.attr('y', y)
 					.attr('text-anchor', 'middle')
 					.style('font-size', size)
-					.attr('dy', 8);
+					.attr('dy', 8)
+					.attr('root',root)
+					.attr('class',select);
 	}
 
-	function createrect(x,y,width,height,text,color,size){
+	function createrect(x,y,width,height,text,color,size,select){
 		var rect = g.append('rect')
 					.attr('x',x)
 					.attr('y',y)
 					.attr('width',width)
 					.attr('height',height)
-					.attr('fill',color);
+					.attr('fill',color)
+					.attr('class',select);
 		
 		var text = g.append('text')
 					.text(text)
@@ -121,20 +131,30 @@ function createTree(){
 					.attr('y', y+height/2)
 					.attr('text-anchor', 'middle')
 					.style('font-size', size)
-					.attr('dy', 8);
+					.attr('dy', 8)
+					.attr('class',select);
 	}
 
-	function createline(x1,y1,x2,y2,color,size){
+	function createline(x1,y1,x2,y2,color,size,select,root){
 		var line = g.append("line")
 		            .attr("x1", x1)
 		            .attr("x2", x2)
 		            .attr("y1", y1)
 		            .attr("y2", y2)
 		            .attr("stroke", color)
-		            .attr("stroke-width", size);
+		            .attr("stroke-width", size)
+		            .attr("class",select)
+		            .attr("root",root)
+		            .attr('onclick','test();');
 	}
+	// active();
 }
+function test(q,text){
+	$('.'+q+text).toggle();
+	$("[root="+text+"]").toggle();
+	console.log($("[root="+text+"]").attr("style"));
+	if($('.'+q+text).attr("style")=="display: none;"){
+		$("[root="+text+"]").hide();
+	}
 
-
-
-
+}
