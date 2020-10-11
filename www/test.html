@@ -78,5 +78,7 @@ $("#point2").css({"top":x*2-145,"left":y*2-145});
 $("#point3").css({"top":y*3-290,"left":x*3-290});
 }
 setInterval(cc,6);
- 
+var arc=d3.svg.arc()
+		.innerRadius(0)//内半径
+		.outerRadius(150);
 </script>

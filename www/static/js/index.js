@@ -55,7 +55,7 @@ function analyse(){
 
 
 function createTree(){
-	document.write("<body></body>");
+	document.write('<body></body>');
 	var svg = d3.select('body').append('svg').attr('width',window.innerWidth).attr('height',window.innerHeight);
 		
 	var g = svg.append('g');
@@ -69,8 +69,9 @@ function createTree(){
 		for(var w in ROOT[q]){
 			var num2 = Object.keys(ROOT[q]).length;
 			var angle = 360/(num2);
-			var x2 = x1 + 180*Math.cos((angle*j+45)*Math.PI/180);
-			var y2 = y1 + 180*Math.sin((angle*j+45)*Math.PI/180);
+			var rand1 = randomNum(0,90);
+			var x2 = x1 + 180*Math.cos((angle*j+rand1)*Math.PI/180);
+			var y2 = y1 + 180*Math.sin((angle*j+rand1)*Math.PI/180);
 			createline(x1,y1,x2,y2,'blue','3px',q+q);
 
 			var k = 0;
@@ -78,11 +79,18 @@ function createTree(){
 				var num3 = Object.keys(ROOT[q][w]).length;
 				// console.log(num3);
 				var angle2 = 360/(num3);
-				var x3 = x2 + 80*Math.cos((angle2*k+60)*Math.PI/180);
-				var y3 = y2 + 80*Math.sin((angle2*k+60)*Math.PI/180);
+				var rand2 = randomNum(0,90);
+				var x3 = x2 + 80*Math.cos((angle2*k+rand2)*Math.PI/180);
+				var y3 = y2 + 80*Math.sin((angle2*k+rand2)*Math.PI/180);
 				// console.log(80*Math.cos(angle2*k*Math.PI/180)+"  "+80*Math.sin(angle2*k*Math.PI/180)+"  "+k);
 				createline(x2,y2,x3,y3,'red','1px',q+w,q);
-				createcircle(x3,y3,20,e,'red','8px',q+w,q);
+				
+				if(ROOT[q][w][e]!=''){
+					createcircle(x3,y3,50,e+':\n'+ROOT[q][w][e],'red','10px',q+w,q);
+				}
+				else{
+					createcircle(x3,y3,50,e,'red','15px',q+w,q);
+				}
 				k++;
 			}
 			createcircle(x2,y2,30,w,'black','10px',q+q);
@@ -118,7 +126,7 @@ function createTree(){
 					.attr('xy',x+','+y);
 	}
 
-	function createrect(x,y,width,height,text,color,size,select){
+	function createrect(x,y,width,height,text,color,select,root,size){
 		var rect = g.append('rect')
 					.attr('x',x)
 					.attr('y',y)
@@ -159,12 +167,18 @@ function change(q,text){
 	if($('.'+q+text).attr("style")=="display: none;"){
 		$("[root="+text+"]").hide();
 	}
+	var paras = document.getElementsByClassName('link');
 
+	while(paras[0]){
+	    paras[0].parentNode.removeChild(paras[0]);
+	}
+	linksame();
 }
 
 
 function linksame(){
 	// console.log($("[root='张三']").text());
+
 	var svg = d3.select("svg");
 	var g = svg.append('g');
 	// var circle = g.append('circle')
@@ -185,18 +199,26 @@ function linksame(){
 				// console.log(point.length);
 				var result = [];
 				for(var q=0;q<point.length;q++){
-					result.push(point.eq(q).attr("xy"));
+					classs = point.eq(q).attr("class");
+					console.log(classs);
+					$('.'+classs).toggle();
+					$('.'+classs).toggle();
+					console.log($('.'+classs).attr("style"));
+					if($('.'+classs).attr("style")=="display: inline;"){
+						console.log(point.eq(q).attr("style"));
+						result.push(point.eq(q).attr("xy"));
+					}
 				}
-				console.log(result);
+				// console.log(result);
 				point = result;
 				for(var a=0;a<point.length;a++){
 					for(var b=0;b<point.length;b++){
-						console.log(a+' '+b);
+						// console.log(a+' '+b);
 						var x1 = point[a].split(/\,/)[0];
 						var y1 = point[a].split(/\,/)[1];
 						var x2 = point[b].split(/\,/)[0];
 						var y2 = point[b].split(/\,/)[1];
-						console.log(x1+':'+y1+','+x2+':'+y2);
+						// console.log(x1+':'+y1+','+x2+':'+y2);
 
 				// 				// g.append('circle')
 				// 				// 		.attr('cx',40)
@@ -205,32 +227,22 @@ function linksame(){
 				// 				// 		.attr('fill','black');
 						var colors = ['null','black','green','pink','puple','blue'];
 						var c = randomNum(1,5);
-						g.append("line")
-				            .attr("x1", x1)
-				            .attr("x2", x2)
-				            .attr("y1", y1)
-				            .attr("y2", y2)
-				            .attr("stroke", colors[c])
-				            .attr("stroke-width", c+'px');
+						// quxian(200,300,400,500);
+						quxian(parseInt(x1),parseInt(y1),parseInt(x2),parseInt(y2));
+						// g.append("line")
+				  //           .attr("x1", x1)
+				  //           .attr("x2", x2)
+				  //           .attr("y1", y1)
+				  //           .attr("y2", y2)
+				  //           .attr("stroke", colors[c])
+				  //           .attr("stroke-width", c+'px');
+				  		// quxian(x1,y1,x2,y2);
 				// 		            .attr("class",'')
 				// 		            .attr("root",'');
 					}
 				}
 			}
 		}
-	}
-	function randomNum(minNum,maxNum){ 
-	    switch(arguments.length){ 
-	        case 1: 
-	            return parseInt(Math.random()*minNum+1,10); 
-	        break; 
-	        case 2: 
-	            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
-	        break; 
-	            default: 
-	                return 0; 
-	            break; 
-	    } 
 	}
 	// var result = [];
  //    for(var i=0;i<point.length;i++){
@@ -239,4 +251,38 @@ function linksame(){
  //        }
  //    }
  //    console.log(result);
+}
+
+
+
+function quxian(x1,y1,x2,y2){
+	var curveData = [{ x: x1, y: y1 }, { x: x2, y: y2 }];
+	var edge = d3.select('svg').append('g');
+	var diagonal = d3.svg.diagonal()
+	  .source(function (d) { return { x: d[0].y, y: d[0].x }; })            
+	  .target(function (d) { return { x: d[1].y, y: d[1].x }; })
+	  .projection(function (d) { return [d.y, d.x]; });
+   
+	d3.select('g')
+	  .datum(curveData)
+	  .append('path')
+	  .attr('class', 'link')
+	  .attr('d', diagonal)
+	  .attr('stroke', '#444')
+	  .attr('stroke-width', 2)
+	  .attr('fill', 'none');
+}
+
+function randomNum(minNum,maxNum){ 
+    switch(arguments.length){ 
+        case 1: 
+            return parseInt(Math.random()*minNum+1,10); 
+        break; 
+        case 2: 
+            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
+        break; 
+            default: 
+                return 0; 
+            break; 
+    } 
 }
