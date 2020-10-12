@@ -59,3 +59,53 @@
 	color: white; /* 字体颜色 */
 	font-size: 20px; /* 字体大小 */
 }
+#abouts {
+	/*position:fixed;*/
+	/*top:350px;*/
+	/*left:700px;*/
+	/*display: none;*/
+	background: rgba(0,0,0,0.6);
+    border-radius: 2em;
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -150px 0 0 -250px;
+    text-align: center;
+    z-index: 999;
+    position:fixed;
+}
+
+#close {
+	padding: 0px 140px;
+
+	/*margin: 250px 800px;*/
+  	/*position: absolute;*/
+  	color: #fff;
+  	/*opacity:0.5;*/
+}
+
+#close_txt {
+	text-align: center;
+  	/*text-shadow: 2px 1px 6px #000;*/
+  	font-size: 2em;
+  	/*font-weight: 400;*/
+  	/*margin: 20px 0 10px;*/
+}
+#save {
+	padding: 0px 140px;
+
+	/*margin: 250px 800px;*/
+  	/*position: absolute;*/
+  	color: #fff;
+  	/*opacity:0.5;*/
+}
+
+#save_txt {
+	text-align: center;
+  	/*text-shadow: 2px 1px 6px #000;*/
+  	font-size: 2em;
+  	/*font-weight: 400;*/
+  	/*margin: 20px 0 10px;*/
+}

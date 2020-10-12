@@ -52,6 +52,8 @@ function analyse(){
 	// return ROOT;
 	// console.log(ROOT);
 	createTree();
+	// detail('李二');
+	// sons();
 }
 
 
@@ -92,10 +94,10 @@ function createTree(){
 				createline(x2,y2,x3,y3,'red','1px',q+w,q);
 				
 				if(ROOT[q][w][e]!=''){
-					createcircle(x3,y3,50,e+':'+ROOT[q][w][e],'SkyBlue','10px',q+w,q);
+					createcircle(x3,y3,50,e,'SkyBlue','10px',q+w,q,1);
 				}
 				else{
-					createcircle(x3,y3,50,e,'SkyBlue','15px',q+w,q);
+					createcircle(x3,y3,50,e,'SkyBlue','15px',q+w,q,1);
 				}
 				k++;
 			}
@@ -107,29 +109,55 @@ function createTree(){
 	}
 	
 
-	function createcircle(x,y,r,text,color,size,select,root){
-		var circle = g.append('circle')
-						.attr('cx',x)
-						.attr('cy',y)
-						.attr('r',r)
-						.attr('fill',color)
-						.attr('class',select)
+	function createcircle(x,y,r,text,color,size,select,root,flag){
+		if(!flag){
+			var circle = g.append('circle')
+							.attr('cx',x)
+							.attr('cy',y)
+							.attr('r',r)
+							.attr('fill',color)
+							.attr('class',select)
+							.attr('root',root)
+							.attr('onclick',"change(\'"+q+"\',\'"+text+"\');");
+			
+			var text = g.append('text')
+						.text(text)
+						.attr('fill','white')
+						.attr('x', x)
+						.attr('y', y)
+						.attr('text-anchor', 'middle')
+						.style('font-size', size)
+						.attr('dy', 8)
 						.attr('root',root)
-						.attr('onclick',"change(\'"+q+"\',\'"+text+"\');");
-		
-		var text = g.append('text')
-					.text(text)
-					.attr('fill','white')
-					.attr('x', x)
-					.attr('y', y)
-					.attr('text-anchor', 'middle')
-					.style('font-size', size)
-					.attr('dy', 8)
-					.attr('root',root)
-					.attr('class',select)
-					.attr('onclick',"change(\'"+q+"\',\'"+text+"\');")
-					.attr('view',text)
-					.attr('xy',x+','+y);
+						.attr('class',select)
+						.attr('onclick',"change(\'"+q+"\',\'"+text+"\');")
+						.attr('view',text)
+						.attr('xy',x+','+y);
+		}
+		else{
+			var circle = g.append('circle')
+							.attr('cx',x)
+							.attr('cy',y)
+							.attr('r',r)
+							.attr('fill',color)
+							.attr('class',select)
+							.attr('root',root)
+							.attr('onclick',"detail(\'"+text+"\');");
+			
+			var text = g.append('text')
+						.text(text)
+						.attr('fill','white')
+						.attr('x', x)
+						.attr('y', y)
+						.attr('text-anchor', 'middle')
+						.style('font-size', size)
+						.attr('dy', 8)
+						.attr('root',root)
+						.attr('class',select)
+						.attr('onclick',"detail(\'"+text+"\');")
+						.attr('view',text)
+						.attr('xy',x+','+y);
+		}
 	}
 
 	function createrect(x,y,width,height,text,color,select,root,size){
@@ -201,12 +229,12 @@ function linksame(){
 				var result = [];
 				for(var q=0;q<point.length;q++){
 					classs = point.eq(q).attr("class");
-					console.log(classs);
+					// console.log(classs);
 					$('.'+classs).toggle();
 					$('.'+classs).toggle();
-					console.log($('.'+classs).attr("style"));
+					// console.log($('.'+classs).attr("style"));
 					if($('.'+classs).attr("style")=="display: inline;"){
-						console.log(point.eq(q).attr("style"));
+						// console.log(point.eq(q).attr("style"));
 						result.push(point.eq(q).attr("xy"));
 					}
 				}
@@ -297,3 +325,56 @@ function save(){
 function reflash(){
 	location.reload();
 }
+
+
+function detail(name){
+	// alert(1111);
+	console.log(name);
+	for(var q in ROOT){
+		// console.log(q);
+		for(var w in ROOT[q]){
+			for(var e in ROOT[q][w]){
+				// console.log(e);
+				if(e==name&&ROOT[q][w][e]!=''){
+					// console.log(ROOT[q][w][e]);
+					document.getElementById("detail").value = ROOT[q][w][e];
+				}
+			}
+		}
+	}
+	$(document).ready(function(){
+  		$("#abouts").fadeToggle("slow");
+  		$("#close").click(function(){
+			// $("#abouts").fadeToggle("slow");
+			$("#abouts").hide();
+		});
+  		$("#save").click(function(){
+   			var new_detail = document.getElementById('detail').value;
+   			for(var q in ROOT){
+				for(var w in ROOT[q]){
+					for(var e in ROOT[q][w]){
+						if(e==name&&ROOT[q][w][e]!=''){
+							ROOT[q][w][e] = new_detail;
+						}
+					}
+				}
+			}
+   			// $("#abouts").fadeToggle("slow");
+			$("#abouts").hide();
+  		});
+	});
+}
+
+// function sons(){
+// 	for(var q2 in ROOT){
+// 		for(var w2 in ROOT[q2]){
+// 			for(var e2 in ROOT[q2][w2]){
+// 				// console.log(e2);
+// 				var views = $("[view='"+e2+"']");
+// 				// console.log(views.attr('view'));
+// 				views.click(function(){detail(views.attr('view'));alert(views.attr('view'))});
+// 				// console.log(views.attr('view'));
+// 			}
+// 		}
+// 	}
+// }

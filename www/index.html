@@ -17,7 +17,16 @@
 	<input type="button" value="生成学术家族树" onclick="analyse()" id="bt" class="index">
 	<input type="button" value="返回" onclick="reflash();" class="button" style="display:none;" id="bt1">
 	<input type="button" value="导出" onclick="save();" class="button" style="display:none;" id="bt2">
-
+	<div id="abouts">
+		<input type="text" value="" id="detail">
+		<div id="close">
+			<h1 id="close_txt"  onmouseover="this.style.cursor='pointer',this.style.color='#C6E2FF'" onmouseout="this.style.color='#fff'">Close</h1>
+		</div>
+		<div id="save">
+			<h1 id="save_txt"  onmouseover="this.style.cursor='pointer',this.style.color='#C6E2FF'" onmouseout="this.style.color='#fff'">Save</h1>
+		</div>
+	</div>
+	<script>$("#abouts").hide();</script>
 </body>
 
 </html>
