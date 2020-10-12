@@ -66,37 +66,37 @@ function createTree(){
 		var y1 = window.innerHeight/2;
 
 		var j = 0;
+		var rand1 = randomNum(0,90);
 		for(var w in ROOT[q]){
 			var num2 = Object.keys(ROOT[q]).length;
 			var angle = 360/(num2);
-			var rand1 = randomNum(0,90);
 			var x2 = x1 + 180*Math.cos((angle*j+rand1)*Math.PI/180);
 			var y2 = y1 + 180*Math.sin((angle*j+rand1)*Math.PI/180);
-			createline(x1,y1,x2,y2,'blue','3px',q+q);
+			//createline(x1,y1,x2,y2,'blue','3px',q+q);
 
 			var k = 0;
+			var rand2 = randomNum(0,90);
 			for(var e in ROOT[q][w]){
 				var num3 = Object.keys(ROOT[q][w]).length;
 				// console.log(num3);
 				var angle2 = 360/(num3);
-				var rand2 = randomNum(0,90);
 				var x3 = x2 + 80*Math.cos((angle2*k+rand2)*Math.PI/180);
 				var y3 = y2 + 80*Math.sin((angle2*k+rand2)*Math.PI/180);
 				// console.log(80*Math.cos(angle2*k*Math.PI/180)+"  "+80*Math.sin(angle2*k*Math.PI/180)+"  "+k);
 				createline(x2,y2,x3,y3,'red','1px',q+w,q);
 				
 				if(ROOT[q][w][e]!=''){
-					createcircle(x3,y3,50,e+':\n'+ROOT[q][w][e],'red','10px',q+w,q);
+					createcircle(x3,y3,50,e+':'+ROOT[q][w][e],'SkyBlue','10px',q+w,q);
 				}
 				else{
-					createcircle(x3,y3,50,e,'red','15px',q+w,q);
+					createcircle(x3,y3,50,e,'SkyBlue','15px',q+w,q);
 				}
 				k++;
 			}
-			createcircle(x2,y2,30,w,'black','10px',q+q);
+			createcircle(x2,y2,30,w,'Orchid','10px',q+q);
 			j++;
 		}
-		createcircle(x1,y1,50,q,'blue','40px','root');
+		createcircle(x1,y1,50,q,'Gold','30px','root');
 		i++;
 	}
 	
@@ -173,6 +173,7 @@ function change(q,text){
 	    paras[0].parentNode.removeChild(paras[0]);
 	}
 	linksame();
+	// save();
 }
 
 
@@ -181,12 +182,6 @@ function linksame(){
 
 	var svg = d3.select("svg");
 	var g = svg.append('g');
-	// var circle = g.append('circle')
-	// 					.attr('cx',40)
-	// 					.attr('cy',40)
-	// 					.attr('r',30)
-	// 					.attr('fill','black');
-	// var point = [];
 	for(var i in ROOT){
 		// console.log(i);
 		for(var j in ROOT[i]){
@@ -220,37 +215,15 @@ function linksame(){
 						var y2 = point[b].split(/\,/)[1];
 						// console.log(x1+':'+y1+','+x2+':'+y2);
 
-				// 				// g.append('circle')
-				// 				// 		.attr('cx',40)
-				// 				// 		.attr('cy',40)
-				// 				// 		.attr('r',30)
-				// 				// 		.attr('fill','black');
 						var colors = ['null','black','green','pink','puple','blue'];
 						var c = randomNum(1,5);
-						// quxian(200,300,400,500);
 						quxian(parseInt(x1),parseInt(y1),parseInt(x2),parseInt(y2));
 						// g.append("line")
-				  //           .attr("x1", x1)
-				  //           .attr("x2", x2)
-				  //           .attr("y1", y1)
-				  //           .attr("y2", y2)
-				  //           .attr("stroke", colors[c])
-				  //           .attr("stroke-width", c+'px');
-				  		// quxian(x1,y1,x2,y2);
-				// 		            .attr("class",'')
-				// 		            .attr("root",'');
 					}
 				}
 			}
 		}
 	}
-	// var result = [];
- //    for(var i=0;i<point.length;i++){
- //        if(result.indexOf(point[i])==-1){
- //            result.push(point[i]);
- //        }
- //    }
- //    console.log(result);
 }
 
 
@@ -268,7 +241,7 @@ function quxian(x1,y1,x2,y2){
 	  .append('path')
 	  .attr('class', 'link')
 	  .attr('d', diagonal)
-	  .attr('stroke', '#444')
+	  .attr('stroke', 'Bisque')
 	  .attr('stroke-width', 2)
 	  .attr('fill', 'none');
 }
@@ -286,3 +259,30 @@ function randomNum(minNum,maxNum){
             break; 
     } 
 }
+
+// 保存按钮
+function save(){
+    var serializer = new XMLSerializer();
+    var svg1 = document.querySelector('svg');
+    var toExport = svg1.cloneNode(true);
+    var bb = svg1.getBBox();
+    toExport.setAttribute('viewBox', bb.x + ' ' + bb.y + ' ' + bb.width + ' ' + bb.height);
+    toExport.setAttribute('width', bb.width);
+    toExport.setAttribute('height', bb.height);
+    var source = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(toExport);
+    var image = new Image;
+    image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+    var canvas = document.createElement("canvas");
+    canvas.width = bb.width;
+    canvas.height = bb.height;
+    var context = canvas.getContext("2d");
+    context.fillStyle = '#fff';//#fff设置保存后的PNG 是白色的  
+    context.fillRect(0, 0, 10000, 10000);
+    image.onload = function() {  
+      context.drawImage(image, 0, 0);  
+      var a = document.createElement("a");  
+      a.download = "Atlas.png";  
+      a.href = canvas.toDataURL("image/png");
+      a.click();
+    }
+  }
