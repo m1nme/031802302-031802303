@@ -1,5 +1,5 @@
 var ROOT = {};
-
+var NAME;
 function analyse(){
 	var text = document.getElementById("text").value;
 	var root = text.split(/\n\n\n/);
@@ -94,7 +94,7 @@ function createTree(){
 				createline(x2,y2,x3,y3,'red','1px',q+w,q);
 				
 				if(ROOT[q][w][e]!=''){
-					createcircle(x3,y3,50,e,'SkyBlue','10px',q+w,q,1);
+					createcircle(x3,y3,50,e,'SkyBlue','15px',q+w,q,1);
 				}
 				else{
 					createcircle(x3,y3,50,e,'SkyBlue','15px',q+w,q,1);
@@ -329,7 +329,9 @@ function reflash(){
 
 function detail(name){
 	// alert(1111);
-	console.log(name);
+	NAME = name;
+	console.log("name:"+name);
+	var ele = document.getElementById("detail");
 	for(var q in ROOT){
 		// console.log(q);
 		for(var w in ROOT[q]){
@@ -337,7 +339,7 @@ function detail(name){
 				// console.log(e);
 				if(e==name&&ROOT[q][w][e]!=''){
 					// console.log(ROOT[q][w][e]);
-					document.getElementById("detail").value = ROOT[q][w][e];
+					ele.value = ROOT[q][w][e];
 				}
 			}
 		}
@@ -349,11 +351,12 @@ function detail(name){
 			$("#abouts").hide();
 		});
   		$("#save").click(function(){
-   			var new_detail = document.getElementById('detail').value;
+   			var new_detail = ele.value;
    			for(var q in ROOT){
 				for(var w in ROOT[q]){
 					for(var e in ROOT[q][w]){
-						if(e==name&&ROOT[q][w][e]!=''){
+						if(e==NAME){
+							console.log(e+':'+NAME);
 							ROOT[q][w][e] = new_detail;
 						}
 					}
@@ -361,20 +364,7 @@ function detail(name){
 			}
    			// $("#abouts").fadeToggle("slow");
 			$("#abouts").hide();
+			// console.log(ROOT);
   		});
 	});
 }
-
-// function sons(){
-// 	for(var q2 in ROOT){
-// 		for(var w2 in ROOT[q2]){
-// 			for(var e2 in ROOT[q2][w2]){
-// 				// console.log(e2);
-// 				var views = $("[view='"+e2+"']");
-// 				// console.log(views.attr('view'));
-// 				views.click(function(){detail(views.attr('view'));alert(views.attr('view'))});
-// 				// console.log(views.attr('view'));
-// 			}
-// 		}
-// 	}
-// }

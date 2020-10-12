@@ -109,3 +109,12 @@
   	/*font-weight: 400;*/
   	/*margin: 20px 0 10px;*/
 }
+
+#detail {
+	height:2.7em;
+	border-radius:10px;
+	border:0px solid #c8cccf;
+	outline:0;
+	color:#986655;
+	text-align:center;
+}
