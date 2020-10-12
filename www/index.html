@@ -6,11 +6,18 @@
 	<script src='./static/js/index.js'></script>
 	<script src='./static/js/d3.js'></script>
 	<script src='./static/js/jquery-1.11.0.min.js'></script>
+	<link rel="stylesheet" type="text/css" href="./static/css/index.css">
+
 </head>
 
-<body>
-	<textarea type="text" id="text"></textarea>
-	<input type="button" value="生成‘学术家族树’" onclick="analyse()">
+<body id="bg">
+	<div id="txt" class="index">
+		<textarea type="text" id="text" rows="30" cols="80" style="background:transparent;border:solid 3px #ffff99;" class="index"></textarea>
+	</div>
+	<input type="button" value="生成学术家族树" onclick="analyse()" id="bt" class="index">
+	<input type="button" value="返回" onclick="reflash();" class="button" style="display:none;" id="bt1">
+	<input type="button" value="导出" onclick="save();" class="button" style="display:none;" id="bt2">
+
 </body>
 
 </html>

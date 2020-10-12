@@ -4,6 +4,7 @@ function analyse(){
 	var text = document.getElementById("text").value;
 	var root = text.split(/\n\n\n/);
 
+	$(".button").show();
 	for(var i in root){
 		var leader = root[i].split(/\n/);
 		var teacher = leader[0].substring(3);
@@ -55,7 +56,12 @@ function analyse(){
 
 
 function createTree(){
-	document.write('<body></body>');
+	var paras = document.getElementsByClassName('index');
+	while(paras[0]){
+	    paras[0].parentNode.removeChild(paras[0]);
+	}
+
+
 	var svg = d3.select('body').append('svg').attr('width',window.innerWidth).attr('height',window.innerHeight);
 		
 	var g = svg.append('g');
@@ -281,8 +287,13 @@ function save(){
     image.onload = function() {  
       context.drawImage(image, 0, 0);  
       var a = document.createElement("a");  
-      a.download = "Atlas.png";  
+      a.download = "tree.png";  
       a.href = canvas.toDataURL("image/png");
       a.click();
     }
   }
+
+
+function reflash(){
+	location.reload();
+}
