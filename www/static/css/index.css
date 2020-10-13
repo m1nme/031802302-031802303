@@ -5,9 +5,26 @@
   	position: absolute;
 }
 
+#btn { /* 按钮美化 */
+	margin-left:35%;
+	margin-top:670px;
+	width: 200px; /* 宽度 */
+	height: 40px; /* 高度 */
+	border-width: 0px; /* 边框宽度 */
+	border-radius: 3px; /* 边框半径 */
+	background: #1E90FF; /* 背景颜色 */
+	cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
+	outline: none; /* 不显示轮廓线 */
+	font-family: Simsun; /* 设置字体 */
+	color: white; /* 字体颜色 */
+	font-size: 20px; /* 字体大小 */
+}
+#btn:hover { /* 鼠标移入按钮范围时改变颜色 */
+	background: #5599FF;
+}
 
 #bt { /* 按钮美化 */
-	margin-left:53%;
+	margin-left:6%;
 	margin-top:670px;
 	width: 200px; /* 宽度 */
 	height: 40px; /* 高度 */
@@ -117,4 +134,12 @@
 	outline:0;
 	color:#986655;
 	text-align:center;
+}
+
+#fileinp {
+    display: none;
+}
+
+#fileinp:hover {
+    cursor: pointer
 }

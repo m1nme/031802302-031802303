@@ -1,5 +1,7 @@
 var ROOT = {};
 var NAME;
+var data;
+var FLAG = 0;
 function analyse(){
 	var text = document.getElementById("text").value;
 	var root = text.split(/\n\n\n/);
@@ -54,6 +56,7 @@ function analyse(){
 	createTree();
 	// detail('李二');
 	// sons();
+	initdetail();
 }
 
 
@@ -294,7 +297,6 @@ function randomNum(minNum,maxNum){
     } 
 }
 
-// 保存按钮
 function save(){
     var serializer = new XMLSerializer();
     var svg1 = document.querySelector('svg');
@@ -312,59 +314,67 @@ function save(){
     var context = canvas.getContext("2d");
     context.fillStyle = '#fff';//#fff设置保存后的PNG 是白色的  
     context.fillRect(0, 0, 10000, 10000);
-    image.onload = function() {  
-      context.drawImage(image, 0, 0);  
-      var a = document.createElement("a");  
-      a.download = "tree.png";  
-      a.href = canvas.toDataURL("image/png");
-      a.click();
-    }
-  }
+    image.onload = function(){  
+		context.drawImage(image, 0, 0);  
+		var a = document.createElement("a");  
+		a.download = "tree.png";  
+		a.href = canvas.toDataURL("image/png");
+		a.click();
+	}
+}
 
 
 function reflash(){
 	location.reload();
 }
 
-
 function detail(name){
-	// alert(1111);
 	NAME = name;
-	console.log("name:"+name);
-	var ele = document.getElementById("detail");
 	for(var q in ROOT){
-		// console.log(q);
 		for(var w in ROOT[q]){
 			for(var e in ROOT[q][w]){
-				// console.log(e);
-				if(e==name&&ROOT[q][w][e]!=''){
-					// console.log(ROOT[q][w][e]);
-					ele.value = ROOT[q][w][e];
+				if(e==name){
+					document.getElementById("detail").value = ROOT[q][w][e];
 				}
 			}
 		}
 	}
+	$("#abouts").fadeToggle("slow");
+}
+
+function initdetail(){
 	$(document).ready(function(){
-  		$("#abouts").fadeToggle("slow");
   		$("#close").click(function(){
-			// $("#abouts").fadeToggle("slow");
-			$("#abouts").hide();
+			$("#abouts").fadeToggle("slow");
 		});
   		$("#save").click(function(){
-   			var new_detail = ele.value;
+			var new_detail = document.getElementById("detail").value;
    			for(var q in ROOT){
 				for(var w in ROOT[q]){
 					for(var e in ROOT[q][w]){
 						if(e==NAME){
-							console.log(e+':'+NAME);
 							ROOT[q][w][e] = new_detail;
 						}
 					}
 				}
 			}
-   			// $("#abouts").fadeToggle("slow");
-			$("#abouts").hide();
-			// console.log(ROOT);
+   			$("#abouts").fadeToggle("slow");
   		});
 	});
+}
+
+
+function fileUpload() {
+    let file = document.getElementById('fileinp').files[0];
+    let reader = new FileReader();
+    reader.readAsText(file, 'utf-8');
+    console.log(reader.result);
+    reader.onload = function () {
+        document.getElementById("text").value = reader.result;
+        analyse();
+    }
+}
+
+function upload() {
+    $('#fileinp').click();
 }
