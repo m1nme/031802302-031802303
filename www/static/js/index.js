@@ -81,8 +81,8 @@ function createTree(){
 		for(var w in ROOT[q]){
 			var num2 = Object.keys(ROOT[q]).length;
 			var angle = 360/(num2);
-			var x2 = x1 + 180*Math.cos((angle*j+rand1)*Math.PI/180);
-			var y2 = y1 + 180*Math.sin((angle*j+rand1)*Math.PI/180);
+			var x2 = x1 + 150*Math.cos((angle*j+rand1)*Math.PI/180);
+			var y2 = y1 + 150*Math.sin((angle*j+rand1)*Math.PI/180);
 			//createline(x1,y1,x2,y2,'blue','3px',q+q);
 
 			var k = 0;
@@ -91,20 +91,20 @@ function createTree(){
 				var num3 = Object.keys(ROOT[q][w]).length;
 				// console.log(num3);
 				var angle2 = 360/(num3);
-				var x3 = x2 + 80*Math.cos((angle2*k+rand2)*Math.PI/180);
-				var y3 = y2 + 80*Math.sin((angle2*k+rand2)*Math.PI/180);
+				var x3 = x2 + 50*Math.cos((angle2*k+rand2)*Math.PI/180);
+				var y3 = y2 + 50*Math.sin((angle2*k+rand2)*Math.PI/180);
 				// console.log(80*Math.cos(angle2*k*Math.PI/180)+"  "+80*Math.sin(angle2*k*Math.PI/180)+"  "+k);
 				createline(x2,y2,x3,y3,'red','1px',q+w,q);
 				
 				if(ROOT[q][w][e]!=''){
-					createcircle(x3,y3,50,e,'SkyBlue','15px',q+w,q,1);
+					createcircle(x3,y3,30,e,'SkyBlue','15px',q+w,q,1);
 				}
 				else{
-					createcircle(x3,y3,50,e,'SkyBlue','15px',q+w,q,1);
+					createcircle(x3,y3,30,e,'SkyBlue','15px',q+w,q,1);
 				}
 				k++;
 			}
-			createcircle(x2,y2,30,w,'Orchid','10px',q+q);
+			createcircle(x2,y2,25,w,'Orchid','7px',q+q);
 			j++;
 		}
 		createcircle(x1,y1,50,q,'Gold','30px','root');
